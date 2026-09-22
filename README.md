@@ -93,3 +93,24 @@ Detailed documentation of the migration and verification process is provided in 
 * **Terminal:** XFCE Terminal
 * **Package Manager:** APT
 * **Architecture:** amd64
+
+## Skills Demonstrated
+
+This project demonstrates practical experience with:
+
+* Debian Linux system administration
+* APT package and dependency management
+* Linux desktop environment configuration
+* Incremental troubleshooting and system cleanup
+* Command-line administration
+* Verification before and after system changes
+* Git and GitHub-based documentation
+* Using AI as a troubleshooting and planning assistant
+
+## Project Status
+
+Completed.
+
+The Debian 13 system was successfully migrated to XFCE, obsolete LXQt components were removed, and the final package state was verified using APT and `dpkg`.
+
+The repository documents the process as a practical system administration case study.
