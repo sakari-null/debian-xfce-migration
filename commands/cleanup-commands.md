@@ -26,7 +26,7 @@ This allows the proposed package removals to be reviewed before execution.
 
 ## Targeted Package Removal
 
-Obsolete LXQt-related packages were removed explicitly when their role in the old environment had been identified.
+Obsolete LXQt-related packages were removed explicitly after their role in the old desktop environment had been identified.
 
 For example:
 
@@ -50,7 +50,9 @@ After the targeted cleanup, APT was used to remove dependencies that were no lon
 sudo apt autoremove --purge
 ```
 
-The operation was only performed after reviewing the simulated package list.
+The operation was performed only after reviewing the simulated package list.
+
+The cleanup removed 16 packages and freed approximately 4.8 MB of disk space.
 
 ## Final Verification
 
@@ -81,16 +83,14 @@ This confirmed that the required desktop environment and applications were still
 
 ## Command-Line Tools Used
 
-The project primarily used standard Debian/Linux tools:
+The project primarily used standard Debian/Linux command-line tools:
 
-| Tool        | Purpose                                                 |
-| ----------- | ------------------------------------------------------- |
-| `apt`       | Package installation, removal and dependency management |
-| `apt-cache` | Package dependency investigation                        |
-| `apt-mark`  | Package installation-state management                   |
-| `dpkg`      | Installed package verification                          |
-| `grep`      | Filtering package information                           |
-| `git`       | Version control and project documentation               |
+| Tool   | Purpose                                                 |
+| ------ | ------------------------------------------------------- |
+| `apt`  | Package installation, removal and dependency management |
+| `dpkg` | Installed package verification                          |
+| `grep` | Filtering package information                           |
+| `git`  | Version control and project documentation               |
 
 ## Safety Approach
 
