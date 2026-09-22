@@ -80,6 +80,78 @@ The final system verification confirmed that the required components remained in
 
 No further packages were identified by APT as automatically removable after the cleanup.
 
+## Additional Troubleshooting Case: LightDM Boot Failure
+
+A separate Debian 13 system, a Dell E6400, was used to investigate a graphical login failure where the system unexpectedly booted to a TTY instead of the Cinnamon graphical login screen.
+
+### Investigation
+
+The Dell E6400 uses Intel GM45 integrated graphics with the `i915` kernel driver.
+
+The previous boot was inspected using `journalctl`:
+
+```bash
+sudo journalctl -b -1 --no-pager | grep -Ei 'i915|drm|gpu|hang|reset|display|edid'
+```
+
+The logs showed normal initialization of the Intel graphics stack. No GPU hang, DRM error, or i915 reset was found.
+
+The display manager and boot target were then checked:
+
+```bash
+systemctl status lightdm --no-pager
+systemctl get-default
+systemctl is-enabled lightdm
+```
+
+The system was configured for:
+
+```text
+graphical.target
+```
+
+but LightDM was:
+
+```text
+disabled
+```
+
+### Resolution
+
+LightDM was enabled to start automatically during boot:
+
+```bash
+sudo systemctl enable lightdm
+```
+
+The configuration was verified:
+
+```bash
+systemctl is-enabled lightdm
+```
+
+Result:
+
+```text
+enabled
+```
+
+The system was then rebooted and the graphical Cinnamon session started normally.
+
+### Result
+
+The issue was resolved without reinstalling the desktop environment, changing graphics drivers, or modifying the i915 configuration.
+
+This case demonstrates a systematic troubleshooting approach:
+
+1. Inspect the previous boot's system logs.
+2. Identify the active graphics hardware and kernel driver.
+3. Check the display manager.
+4. Verify the system boot target.
+5. Check whether the display manager is enabled.
+6. Apply the smallest necessary configuration change.
+7. Reboot and verify the result.
+
 ## Documentation
 
 Detailed documentation of the migration and verification process is provided in the `docs/` directory.
@@ -102,6 +174,9 @@ This project demonstrates practical experience with:
 * APT package and dependency management
 * Linux desktop environment configuration
 * Incremental troubleshooting and system cleanup
+* System log analysis with `journalctl`
+* Linux display manager configuration
+* Intel `i915` graphics troubleshooting
 * Command-line administration
 * Verification before and after system changes
 * Git and GitHub-based documentation
@@ -112,5 +187,7 @@ This project demonstrates practical experience with:
 Completed.
 
 The Debian 13 system was successfully migrated to XFCE, obsolete LXQt components were removed, and the final package state was verified using APT and `dpkg`.
+
+The repository also documents a separate Debian 13 troubleshooting case involving LightDM, TTY boot behavior, and Intel graphics diagnostics.
 
 The repository documents the process as a practical system administration case study.
